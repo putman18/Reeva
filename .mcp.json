@@ -1,3 +1,9 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "calendar-email": {
+      "command": "python",
+      "args": ["calendar_email/execution/server.py"],
+      "cwd": "c:\\Program Files\\Projects"
+    }
+  }
 }
