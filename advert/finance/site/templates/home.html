@@ -1,0 +1,149 @@
+<!-- Trust bar -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <span>Trusted by 10,000+ readers</span>
+    <div class="trust-logos">
+      <span class="trust-logo">MSN Money</span>
+      <span class="trust-logo">Yahoo Finance</span>
+      <span class="trust-logo">Business Insider</span>
+    </div>
+    <span>Written by Jordan Hale &bull; Updated April 2026</span>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>Build Your Financial <em>Blueprint</em></h1>
+      <p>Clear, practical money advice for young adults. From your first credit card to your first investment - we make it simple.</p>
+
+      <div class="hero-stats">
+        <div>
+          <span class="hero-stat-num">200+</span>
+          <span class="hero-stat-label">In-depth guides</span>
+        </div>
+        <div>
+          <span class="hero-stat-num">10K+</span>
+          <span class="hero-stat-label">Monthly readers</span>
+        </div>
+        <div>
+          <span class="hero-stat-num">100%</span>
+          <span class="hero-stat-label">Free to read</span>
+        </div>
+      </div>
+
+      <a href="/financial-literacy-basics-for-beginners/" class="btn">Start with Credit Basics &rarr;</a>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-title">Top Guides This Month</div>
+      <a href="/best-credit-cards-for-beginners/" class="hero-card-link">
+        <span>💳</span> Best Starter Credit Cards
+        <span class="hero-card-arrow">&rarr;</span>
+      </a>
+      <a href="/how-to-start-investing-with-no-money/" class="hero-card-link">
+        <span>📈</span> Start Investing with No Money
+        <span class="hero-card-arrow">&rarr;</span>
+      </a>
+      <a href="/how-to-build-wealth-in-your-20s/" class="hero-card-link">
+        <span>💰</span> Build Wealth in Your 20s
+        <span class="hero-card-arrow">&rarr;</span>
+      </a>
+      <a href="/best-budgeting-apps-of-2026/" class="hero-card-link">
+        <span>📊</span> Best Budgeting Apps 2026
+        <span class="hero-card-arrow">&rarr;</span>
+      </a>
+      <a href="/how-to-pay-off-credit-card-debt-fast/" class="hero-card-link">
+        <span>🏦</span> Pay Off Debt Fast
+        <span class="hero-card-arrow">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="container">
+  <section class="section">
+
+    <!-- Category pills -->
+    <div class="pills">
+      <a href="/" class="pill active">All</a>
+      <a href="/credit-cards/" class="pill">Credit Cards</a>
+      <a href="/investing/" class="pill">Investing</a>
+      <a href="/budgeting/" class="pill">Budgeting</a>
+      <a href="/side-hustles/" class="pill">Side Hustles</a>
+      <a href="/debt/" class="pill">Debt Payoff</a>
+    </div>
+
+    <!-- Section header -->
+    <div class="section-header">
+      <div class="section-label">Latest Articles</div>
+      <h2 class="section-title">Practical Guides Updated Monthly</h2>
+      <p class="section-sub">Researched and written by Jordan Hale.</p>
+    </div>
+
+    <!-- Article grid (featured card + regular cards) -->
+    <div class="card-grid">
+      {{ article_cards }}
+    </div>
+
+  </section>
+
+  <!-- Newsletter -->
+  <div class="newsletter" id="newsletter">
+    <h2>Get Your Free Money Checklist</h2>
+    <p>The 10-step plan Jordan used to pay off $28K in debt. Join readers getting weekly finance tips.</p>
+    <!-- CONVERTKIT_FORM -->
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="Enter your email address">
+      <button type="submit" class="btn">Get It Free</button>
+    </form>
+    <p class="newsletter-note">No spam, ever. Unsubscribe anytime.</p>
+  </div>
+
+  <!-- Bottom categories -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Browse by Topic</div>
+      <h2 class="section-title">Find Exactly What You Need</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-body" style="text-align:center; padding: 36px 24px;">
+          <div style="font-size:52px; margin-bottom:16px;">💳</div>
+          <h3 class="card-title"><a href="/credit-cards/">Credit Cards</a></h3>
+          <p class="card-excerpt">Find the best card for your situation. Cash back, travel rewards, or building credit from scratch.</p>
+          <a href="/credit-cards/" class="card-read-more">Browse guides &rarr;</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body" style="text-align:center; padding: 36px 24px;">
+          <div style="font-size:52px; margin-bottom:16px;">📈</div>
+          <h3 class="card-title"><a href="/investing/">Investing</a></h3>
+          <p class="card-excerpt">Start investing with as little as $100. Index funds, Roth IRA, and brokerage accounts explained simply.</p>
+          <a href="/investing/" class="card-read-more">Browse guides &rarr;</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body" style="text-align:center; padding: 36px 24px;">
+          <div style="font-size:52px; margin-bottom:16px;">💰</div>
+          <h3 class="card-title"><a href="/side-hustles/">Side Hustles</a></h3>
+          <p class="card-excerpt">Real ways to earn extra money in 2026. From freelancing to passive income streams that actually work.</p>
+          <a href="/side-hustles/" class="card-read-more">Browse guides &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Mobile sticky CTA bar -->
+<div class="sticky-cta-bar" id="stickyCta">
+  <div>
+    <div class="sticky-cta-text">Get the free money checklist</div>
+    <div class="sticky-cta-sub">Join 10,000+ readers</div>
+  </div>
+  <a href="#newsletter" class="btn btn-sm">Subscribe</a>
+  <button class="sticky-cta-dismiss" onclick="document.getElementById('stickyCta').style.display='none';">&times;</button>
+</div>

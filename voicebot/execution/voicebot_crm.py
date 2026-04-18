@@ -58,11 +58,17 @@ def init_db():
             intent TEXT,
             outcome TEXT,
             summary TEXT,
+            transcript TEXT,
             escalated INTEGER DEFAULT 0,
             created_at TEXT DEFAULT (datetime('now')),
             FOREIGN KEY (customer_id) REFERENCES customers(id)
         )
     """)
+    # Add transcript column if upgrading existing DB
+    try:
+        c.execute("ALTER TABLE calls ADD COLUMN transcript TEXT")
+    except Exception:
+        pass
 
     conn.commit()
     conn.close()
@@ -178,14 +184,15 @@ def log_call(
     intent: str = None,
     outcome: str = None,
     summary: str = None,
+    transcript: str = None,
     escalated: bool = False
 ) -> dict:
     """Log a completed call to the calls table."""
     conn = get_conn()
     conn.execute(
-        """INSERT INTO calls (customer_id, phone, duration_seconds, intent, outcome, summary, escalated)
-           VALUES (?, ?, ?, ?, ?, ?, ?)""",
-        (customer_id, phone, duration_seconds, intent, outcome, summary, int(escalated))
+        """INSERT INTO calls (customer_id, phone, duration_seconds, intent, outcome, summary, transcript, escalated)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (customer_id, phone, duration_seconds, intent, outcome, summary, transcript, int(escalated))
     )
     conn.commit()
     row = conn.execute("SELECT * FROM calls WHERE phone = ? ORDER BY id DESC LIMIT 1", (phone,)).fetchone()

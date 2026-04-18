@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background -->
+  <rect width="200" height="200" rx="24" fill="#1a7f5e"/>
+
+  <!-- Blueprint grid lines -->
+  <line x1="36" y1="60" x2="164" y2="60" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="36" y1="90" x2="164" y2="90" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="36" y1="120" x2="164" y2="120" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="36" y1="150" x2="164" y2="150" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="66" y1="36" x2="66" y2="164" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="96" y1="36" x2="96" y2="164" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <line x1="126" y1="36" x2="126" y2="164" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+  <!-- Bar chart: 3 bars growing left to right -->
+  <rect x="44" y="118" width="26" height="42" rx="4" fill="rgba(255,255,255,0.35)"/>
+  <rect x="80" y="90" width="26" height="70" rx="4" fill="rgba(255,255,255,0.6)"/>
+  <rect x="116" y="62" width="26" height="98" rx="4" fill="white"/>
+
+  <!-- Upward trend line over bars -->
+  <polyline
+    points="57,118 93,90 129,62"
+    stroke="white"
+    stroke-width="3.5"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.9"
+  />
+
+  <!-- Arrow tip at top right of trend -->
+  <polyline
+    points="118,56 129,62 121,70"
+    stroke="white"
+    stroke-width="3.5"
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.9"
+  />
+</svg>

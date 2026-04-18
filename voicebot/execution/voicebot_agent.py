@@ -10,9 +10,46 @@ Handles the full call flow:
 
 import json
 import os
+import urllib.request
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
+
+DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN", "")
+DISCORD_APPOINTMENTS_CHANNEL = "1493074033938268330"
+
+
+def notify_discord_appointment(customer_name: str, phone: str, service: str, dt: str):
+    """Fire a Discord message to #voicebot-appointments when a booking is made."""
+    try:
+        from datetime import datetime
+        dt_label = datetime.fromisoformat(dt).strftime("%a %b %#d at %#I:%M %p")
+    except Exception:
+        dt_label = dt
+
+    message = (
+        f"**New Appointment Booked**\n"
+        f"**Customer:** {customer_name}\n"
+        f"**Phone:** {phone}\n"
+        f"**Service:** {service}\n"
+        f"**Time:** {dt_label}"
+    )
+
+    try:
+        data = json.dumps({"content": message}).encode()
+        req = urllib.request.Request(
+            f"https://discord.com/api/v10/channels/{DISCORD_APPOINTMENTS_CHANNEL}/messages",
+            data=data,
+            headers={
+                "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
+                "Content-Type": "application/json",
+                "User-Agent": "DiscordBot (voicebot, 1.0)"
+            },
+            method="POST"
+        )
+        urllib.request.urlopen(req, timeout=5)
+    except Exception as e:
+        print(f"Discord notify failed: {e}")
 
 import anthropic
 from datetime import datetime
@@ -180,6 +217,7 @@ def run_tool(tool_name: str, tool_input: dict) -> str:
             calendar_event_id=event_id
         )
 
+        notify_discord_appointment(tool_input["customer_name"], phone, tool_input["service"], tool_input["start_dt"])
         return json.dumps({"success": True, "appointment": appt, "calendar_event_id": event_id})
 
     elif tool_name == "cancel_appointment":
@@ -409,6 +447,7 @@ class VoicebotSession:
             intent=self.intent,
             outcome=self.outcome,
             summary=summary,
+            transcript=transcript,
             escalated=self.escalated
         )
 

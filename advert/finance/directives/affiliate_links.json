@@ -1,0 +1,162 @@
+{
+  "programs": [
+    {
+      "name": "Robinhood",
+      "url": "YOUR_ROBINHOOD_AFFILIATE_URL",
+      "commission": "$5-20 per signup",
+      "signup": "https://robinhood.com/us/en/support/articles/referral-program/",
+      "keywords": [
+        "robinhood",
+        "commission-free investing",
+        "stock trading app",
+        "free stock"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Acorns",
+      "url": "YOUR_ACORNS_AFFILIATE_URL",
+      "commission": "$5 per signup",
+      "signup": "https://www.acorns.com/partners/",
+      "keywords": [
+        "acorns",
+        "micro-investing",
+        "round up investing",
+        "invest spare change"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Betterment",
+      "url": "YOUR_BETTERMENT_AFFILIATE_URL",
+      "commission": "$15-75 per funded account",
+      "signup": "https://www.betterment.com/partners",
+      "keywords": [
+        "betterment",
+        "robo-advisor",
+        "automated investing",
+        "hands-off investing"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "SoFi",
+      "url": "YOUR_SOFI_AFFILIATE_URL",
+      "commission": "$100+ per funded account",
+      "signup": "https://www.sofi.com/affiliates/",
+      "keywords": [
+        "sofi",
+        "personal loan",
+        "student loan refinance",
+        "high yield savings"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "YNAB",
+      "url": "YOUR_YNAB_AFFILIATE_URL",
+      "commission": "50% of first payment (~$45)",
+      "signup": "https://www.youneedabudget.com/ynab-affiliate-program/",
+      "keywords": [
+        "ynab",
+        "you need a budget",
+        "budgeting software",
+        "zero-based budget"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Fundrise",
+      "url": "YOUR_FUNDRISE_AFFILIATE_URL",
+      "commission": "$10 per signup",
+      "signup": "https://fundrise.com/referrals",
+      "keywords": [
+        "fundrise",
+        "real estate investing",
+        "reit",
+        "passive real estate income"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "eToro",
+      "url": "YOUR_ETORO_AFFILIATE_URL",
+      "commission": "Up to $250 per referral (CPA)",
+      "signup": "https://www.etoro.com/partners/",
+      "keywords": [
+        "etoro",
+        "copy trading",
+        "social trading",
+        "stocks and crypto"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Coinbase",
+      "url": "YOUR_COINBASE_AFFILIATE_URL",
+      "commission": "50% of trading fees for first 3 months",
+      "signup": "https://www.coinbase.com/affiliates",
+      "keywords": [
+        "coinbase",
+        "buy bitcoin",
+        "crypto exchange",
+        "buy cryptocurrency",
+        "invest in crypto"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Credit Karma",
+      "url": "YOUR_CREDIT_KARMA_AFFILIATE_URL",
+      "commission": "Per lead",
+      "network": "Awin",
+      "keywords": [
+        "credit karma",
+        "free credit score",
+        "check credit score",
+        "credit monitoring",
+        "credit report"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "Rocket Money",
+      "url": "YOUR_ROCKET_MONEY_AFFILIATE_URL",
+      "commission": "Per signup",
+      "keywords": [
+        "rocket money",
+        "cancel subscriptions",
+        "budgeting app",
+        "bill negotiation"
+      ],
+      "status": "pending"
+    },
+    {
+      "name": "FileYourTaxes",
+      "url": "https://tidd.ly/47Qni4l",
+      "commission": "Per signup",
+      "network": "FlexOffers",
+      "keywords": [
+        "file your taxes",
+        "tax filing",
+        "file taxes online",
+        "free tax filing",
+        "tax return"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Barclays",
+      "url": "YOUR_BARCLAYS_AFFILIATE_URL",
+      "commission": "Per account opened",
+      "network": "CJ",
+      "keywords": [
+        "barclays",
+        "barclays savings",
+        "high yield savings account",
+        "online savings account"
+      ],
+      "status": "pending"
+    }
+  ]
+}

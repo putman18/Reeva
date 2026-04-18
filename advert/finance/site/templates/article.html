@@ -1,0 +1,120 @@
+<!-- Article header section -->
+<div class="article-header-section">
+  <div class="article-header-inner">
+    <div class="article-breadcrumb">
+      <a href="/">Home</a>
+      <span>&rsaquo;</span>
+      <a href="/{{ category_slug }}/">{{ category }}</a>
+      <span>&rsaquo;</span>
+      <span>{{ title }}</span>
+    </div>
+
+    <span class="article-tag">{{ category }}</span>
+    <h1 class="article-title">{{ title }}</h1>
+
+    <div class="article-byline">
+      <div class="byline-item">
+        <div class="byline-avatar">JH</div>
+        <div>
+          <div class="byline-name">Jordan Hale</div>
+          <div class="byline-role">Personal Finance Writer</div>
+        </div>
+      </div>
+      <div class="byline-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Updated {{ date }}
+      </div>
+      <div class="byline-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        {{ read_time }} min read
+      </div>
+      <div class="byline-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Fact-checked by editorial team
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Article layout: content + sidebar -->
+<div class="article-layout">
+
+  <main>
+    <div class="disclosure-box">
+      <strong>Advertiser Disclosure:</strong> Some links in this article are affiliate links. We may earn a commission if you click through and make a purchase, at no extra cost to you. Our editorial opinions are our own. <a href="/disclaimer/">Learn more</a>
+    </div>
+
+    <div class="article-content">
+      {{ body }}
+    </div>
+
+    <!-- Newsletter -->
+    <div class="newsletter" id="newsletter">
+      <h2>Get Your Free Money Checklist</h2>
+      <p>The 10-step plan Jordan used to pay off $28K in debt. Join readers getting weekly finance tips.</p>
+      <!-- CONVERTKIT_FORM -->
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="Enter your email address">
+        <button type="submit" class="btn">Get It Free</button>
+      </form>
+      <p class="newsletter-note">No spam, ever. Unsubscribe anytime.</p>
+    </div>
+
+    <!-- Author bio -->
+    <div class="author-bio">
+      <div class="author-bio-avatar">JH</div>
+      <div>
+        <div class="author-bio-name">Jordan Hale</div>
+        <p class="author-bio-text">Jordan Hale is a personal finance writer focused on helping young adults build wealth from the ground up. After paying off $28,000 in debt in three years, Jordan now shares the strategies that actually worked - no fluff, no get-rich-quick promises.</p>
+      </div>
+    </div>
+
+    <div class="article-disclaimer">
+      <strong>Disclaimer:</strong> This article is for informational purposes only and does not constitute financial advice. Some links may be affiliate links - we may earn a commission at no extra cost to you. Always consult a qualified financial advisor before making major financial decisions.
+    </div>
+  </main>
+
+  <aside class="sidebar">
+    <div class="sidebar-sticky">
+
+      <div class="sidebar-cta">
+        <h3>Free Money Checklist</h3>
+        <p>The 10-step plan Jordan used to pay off $28K in debt.</p>
+        <a href="#newsletter" class="btn btn-sm" style="width:100%; justify-content:center;">Get It Free</a>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Top Guides Right Now</div>
+        <ul class="sidebar-links">
+          <li><a href="/best-credit-cards-for-beginners/">&#128179; Best Starter Credit Cards</a></li>
+          <li><a href="/financial-literacy-basics-for-beginners/">&#128200; Build Credit from Zero</a></li>
+          <li><a href="/how-to-start-investing-with-no-money/">&#128176; Start Investing for Free</a></li>
+          <li><a href="/best-budgeting-apps-of-2026/">&#128202; Best Budgeting Apps 2026</a></li>
+          <li><a href="/how-to-pay-off-credit-card-debt-fast/">&#127970; Pay Off Debt Fast</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Browse Topics</div>
+        <div class="pills" style="margin-bottom:0;">
+          <a href="/credit-cards/" class="pill">Credit Cards</a>
+          <a href="/investing/" class="pill">Investing</a>
+          <a href="/budgeting/" class="pill">Budgeting</a>
+          <a href="/side-hustles/" class="pill">Side Hustles</a>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+</div>
+
+<!-- Mobile sticky CTA -->
+<div class="sticky-cta-bar" id="stickyCta">
+  <div>
+    <div class="sticky-cta-text">Get the free money checklist</div>
+    <div class="sticky-cta-sub">Join 10,000+ readers</div>
+  </div>
+  <a href="#newsletter" class="btn btn-sm">Get It Free</a>
+  <button class="sticky-cta-dismiss" onclick="document.getElementById('stickyCta').style.display='none';">&times;</button>
+</div>

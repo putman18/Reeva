@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }} | The Finance Blueprint</title>
+  <meta name="description" content="{{ description }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:type" content="website">
+  <meta name="author" content="Jordan Hale">
+  <link rel="canonical" href="https://www.thefinanceblueprint.com{{ canonical }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+  <meta name="fo-verify" content="3d14066f-d3f7-42fc-aa62-2f71db53f3c8" />
+  <meta name="impact-site-verification" content="5ce4de21-3536-4996-bdf0-bffc83f2b5dc" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5307963212708530"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="disclosure-bar">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  Advertiser disclosure: Some links on this page are affiliate links. We may earn a commission at no extra cost to you. <a href="/disclaimer/">Learn more</a>
+</div>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo"><img src="/static/logo.svg" alt="" width="28" height="28" style="vertical-align:middle;margin-right:8px;border-radius:6px;">The <span>Finance</span> Blueprint</a>
+    <nav>
+      <a href="/credit-cards/">Credit Cards</a>
+      <a href="/investing/">Investing</a>
+      <a href="/budgeting/">Budgeting</a>
+      <a href="/side-hustles/">Side Hustles</a>
+      <a href="/about/" class="nav-cta">About Jordan</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <span id="themeIcon">🌙</span>
+    </button>
+  </div>
+</header>
+
+<script>
+  (function() {
+    var saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    if (saved === 'dark') {
+      var icon = document.getElementById('themeIcon');
+      if (icon) icon.textContent = '☀️';
+    }
+  })();
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme');
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    document.getElementById('themeIcon').textContent = next === 'dark' ? '☀️' : '🌙';
+  }
+</script>
+
+{{ content }}
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <a href="/" class="footer-logo"><img src="/static/logo.svg" alt="" width="24" height="24" style="vertical-align:middle;margin-right:7px;border-radius:5px;">The <span>Finance</span> Blueprint</a>
+        <p class="footer-desc">Practical money advice for young adults. No jargon, no fluff - just clear steps to build wealth and take control of your finances.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <ul>
+          <li><a href="/credit-cards/">Credit Cards</a></li>
+          <li><a href="/investing/">Investing</a></li>
+          <li><a href="/budgeting/">Budgeting</a></li>
+          <li><a href="/side-hustles/">Side Hustles</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/about/">About Jordan</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/disclaimer/">Disclaimer</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Popular</h4>
+        <ul>
+          <li><a href="/best-credit-cards-for-beginners/">Best Starter Cards</a></li>
+          <li><a href="/financial-literacy-basics-for-beginners/">Build Credit</a></li>
+          <li><a href="/how-to-start-investing-with-no-money/">Start Investing</a></li>
+          <li><a href="/best-budgeting-apps-2026/">Budget Guide</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 The Finance Blueprint. All rights reserved.</span>
+      <span>Written by Jordan Hale</span>
+    </div>
+    <p class="footer-disclaimer">Disclaimer: The Finance Blueprint is for informational purposes only and does not constitute financial advice. Some links on this site are affiliate links - we may earn a commission at no extra cost to you. Always do your own research before making financial decisions.</p>
+  </div>
+</footer>
+
+</body>
+</html>

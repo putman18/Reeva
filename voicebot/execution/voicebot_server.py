@@ -47,7 +47,7 @@ def say(text: str, voice: str = "Polly.Joanna") -> str:
     return f'<Say voice="{voice}">{safe}</Say>'
 
 
-def gather(action: str, timeout: int = 5, speech_timeout: str = "auto") -> tuple[str, str]:
+def gather(action: str, timeout: int = 30, speech_timeout: str = "1") -> tuple[str, str]:
     """Return opening and closing tags for a <Gather> block."""
     open_tag = (
         f'<Gather input="speech" action="{action}" method="POST" '
@@ -105,6 +105,8 @@ async def call_respond(
         body = f"{sorry}{open_gather}{go_ahead}{close_gather}"
         return twiml(body)
 
+    # Play a filler while Claude processes so there's no dead silence
+    # (Twilio will stream this immediately while we wait for the response)
     response_text, flags = session.respond(user_input)
 
     # Handle escalation
