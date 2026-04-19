@@ -120,7 +120,8 @@ def get_personality_response(client, personality_key, topic, conversation_log):
 
 def print_speaker(personality_key, message):
     p = PERSONALITIES[personality_key]
-    print(f"\n{p['color']}{BOLD}{p['name']}:{RESET} {message}\n")
+    safe = message.encode("cp1252", errors="replace").decode("cp1252")
+    print(f"\n{p['color']}{BOLD}{p['name']}:{RESET} {safe}\n")
 
 
 def save_transcript(topic, conversation_log):
@@ -182,6 +183,12 @@ def main():
                 conversation_log.append(
                     {"speaker": PERSONALITIES[personality_key]["name"], "message": response}
                 )
+
+        # If topic was passed via --topic (non-interactive), auto-save and exit
+        if args.topic:
+            out = save_transcript(topic, conversation_log)
+            print(f"\nTranscript saved to {out}")
+            break
 
         next_input = input(f"{BOLD}You:{RESET} ").strip()
         if not next_input:
