@@ -1,11 +1,14 @@
 """
 analyst.py - Core logic for the Git Repository Analyst MCP.
 
-Four tools:
+Seven tools:
     analyze_complexity   - composite complexity score per Python file
     find_hotspots        - files with highest commit churn in a time window
     summarize_commits    - commit breakdown by author, day, and type
     detect_coupling      - import graph, hubs, and circular dependencies
+    find_dead_code       - functions and classes defined but never used
+    scan_code_smells     - long functions, deep nesting, missing docstrings, magic numbers
+    map_test_coverage    - source files with no corresponding test file
 """
 
 import ast
@@ -310,4 +313,227 @@ def detect_coupling(repo_path: str, top_n: int = 10) -> str:
     if skipped:
         lines.append(f"[Skipped {len(skipped)} files: parse errors]")
 
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Tool 5: find_dead_code
+# ---------------------------------------------------------------------------
+
+def find_dead_code(repo_path: str) -> str:
+    """
+    Find functions and classes defined in the repo but never called or imported
+    anywhere else. Uses two-pass AST analysis: collect definitions, then collect
+    all names referenced across the entire codebase.
+    """
+    files, _ = _iter_py_files(repo_path)
+
+    # Pass 1: collect all definitions {name -> file}
+    definitions: dict[str, str] = {}
+    for f in files:
+        try:
+            source = f.read_text(encoding="utf-8", errors="replace")
+            tree = ast.parse(source)
+        except Exception:
+            continue
+        rel = str(f.relative_to(repo_path))
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                if not node.name.startswith("_"):  # skip private/dunder
+                    definitions[node.name] = rel
+
+    # Pass 2: collect all names used across all files
+    used: set[str] = set()
+    for f in files:
+        try:
+            source = f.read_text(encoding="utf-8", errors="replace")
+            tree = ast.parse(source)
+        except Exception:
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Name):
+                used.add(node.id)
+            elif isinstance(node, ast.Attribute):
+                used.add(node.attr)
+            elif isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Name):
+                    used.add(node.func.id)
+
+    dead = {name: path for name, path in definitions.items() if name not in used}
+
+    if not dead:
+        return f"No dead code detected in {Path(repo_path).name}. All public functions and classes are referenced."
+
+    # Group by file
+    by_file: dict[str, list[str]] = defaultdict(list)
+    for name, path in dead.items():
+        by_file[path].append(name)
+
+    lines = [f"DEAD CODE in {Path(repo_path).name} ({len(dead)} unreferenced definitions)\n",
+             "These public functions/classes are never called or imported:\n"]
+    for filepath, names in sorted(by_file.items()):
+        lines.append(f"  {filepath}")
+        for name in sorted(names):
+            lines.append(f"    - {name}()")
+
+    lines.append("\nNote: private names (prefixed _) are excluded. Verify before deleting.")
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Tool 6: scan_code_smells
+# ---------------------------------------------------------------------------
+
+MAGIC_NUMBER_PATTERN = re.compile(r"\b(?<!\w)(\d{2,})\b")
+MAGIC_NUMBER_WHITELIST = {0, 1, 2, 100, 1000}
+
+
+def _count_lines(node) -> int:
+    try:
+        return node.end_lineno - node.lineno + 1
+    except AttributeError:
+        return 0
+
+
+def _max_depth(node, current=0) -> int:
+    BLOCK_TYPES = (ast.If, ast.For, ast.While, ast.With, ast.Try,
+                   ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)
+    max_d = current
+    for child in ast.iter_child_nodes(node):
+        if isinstance(child, BLOCK_TYPES):
+            max_d = max(max_d, _max_depth(child, current + 1))
+        else:
+            max_d = max(max_d, _max_depth(child, current))
+    return max_d
+
+
+def scan_code_smells(repo_path: str) -> str:
+    files, _ = _iter_py_files(repo_path)
+    smells: list[dict] = []
+
+    for f in files:
+        try:
+            source = f.read_text(encoding="utf-8", errors="replace")
+            tree = ast.parse(source)
+        except Exception:
+            continue
+
+        rel = str(f.relative_to(repo_path))
+        lines_list = source.splitlines()
+
+        # File-level: missing module docstring
+        if not (isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Constant)):
+            smells.append({"file": rel, "type": "missing_docstring", "detail": "Module has no docstring"})
+
+        for node in ast.walk(tree):
+            # Long functions
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                length = _count_lines(node)
+                if length > 50:
+                    smells.append({"file": rel, "type": "long_function",
+                                   "detail": f"{node.name}() is {length} lines (limit: 50)"})
+
+            # Deep nesting
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                depth = _max_depth(node)
+                if depth > 4:
+                    smells.append({"file": rel, "type": "deep_nesting",
+                                   "detail": f"{node.name}() has nesting depth {depth} (limit: 4)"})
+
+        # Magic numbers (scan source lines directly)
+        for i, line in enumerate(lines_list, 1):
+            stripped = line.strip()
+            if stripped.startswith("#"):
+                continue
+            for match in MAGIC_NUMBER_PATTERN.finditer(line):
+                num = int(match.group())
+                if num not in MAGIC_NUMBER_WHITELIST:
+                    smells.append({"file": rel, "type": "magic_number",
+                                   "detail": f"Line {i}: hardcoded {num}"})
+                    break  # one per line to avoid spam
+
+    if not smells:
+        return f"No code smells detected in {Path(repo_path).name}."
+
+    # Group by type for summary
+    by_type: dict[str, list] = defaultdict(list)
+    for s in smells:
+        by_type[s["type"]].append(s)
+
+    lines = [f"CODE SMELLS in {Path(repo_path).name} ({len(smells)} issues)\n"]
+    order = ["long_function", "deep_nesting", "missing_docstring", "magic_number"]
+    labels = {"long_function": "Long functions (>50 lines)",
+              "deep_nesting": "Deep nesting (>4 levels)",
+              "missing_docstring": "Missing module docstrings",
+              "magic_number": "Magic numbers"}
+
+    for t in order:
+        group = by_type.get(t, [])
+        if not group:
+            continue
+        lines.append(f"{labels[t]} ({len(group)}):")
+        for s in group[:10]:
+            lines.append(f"  {s['file']}: {s['detail']}")
+        if len(group) > 10:
+            lines.append(f"  ... and {len(group) - 10} more")
+        lines.append("")
+
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Tool 7: map_test_coverage
+# ---------------------------------------------------------------------------
+
+def map_test_coverage(repo_path: str) -> str:
+    """
+    File-based test coverage map. No pytest required.
+    Finds test_*.py files, maps them to source files by name convention,
+    and lists source files with no corresponding test.
+    """
+    root = Path(repo_path)
+    all_py = [p for p in root.rglob("*.py")
+              if ".git" not in p.parts and "__pycache__" not in p.parts]
+
+    test_files = [p for p in all_py if p.name.startswith("test_") or p.name.endswith("_test.py")]
+    source_files = [p for p in all_py if p not in test_files]
+
+    # Build map: strip test_ prefix and _test suffix to get candidate source name
+    covered: set[str] = set()
+    test_map: dict[str, str] = {}
+    for t in test_files:
+        stem = t.stem
+        if stem.startswith("test_"):
+            candidate = stem[5:]  # strip test_
+        elif stem.endswith("_test"):
+            candidate = stem[:-5]  # strip _test
+        else:
+            candidate = stem
+        covered.add(candidate)
+        test_map[candidate] = str(t.relative_to(root))
+
+    untested = [f for f in source_files if f.stem not in covered]
+    tested = [f for f in source_files if f.stem in covered]
+
+    total = len(source_files)
+    pct = round(len(tested) / total * 100) if total else 0
+
+    lines = [f"TEST COVERAGE MAP -{Path(repo_path).name}\n",
+             f"Coverage: {len(tested)}/{total} source files have a test file ({pct}%)\n"]
+
+    if tested:
+        lines.append("Covered:")
+        for f in sorted(tested):
+            candidate = f.stem
+            lines.append(f"  {str(f.relative_to(root)):<45} <- {test_map.get(candidate, '?')}")
+
+    lines.append("")
+    if untested:
+        lines.append(f"No test file found ({len(untested)}):")
+        for f in sorted(untested):
+            lines.append(f"  {str(f.relative_to(root))}")
+    else:
+        lines.append("All source files have a corresponding test file.")
+
+    lines.append("\nNote: file-name convention only (test_foo.py -> foo.py). Does not check what is actually tested inside.")
     return "\n".join(lines)

@@ -6,6 +6,9 @@ Tools:
   find_hotspots        - files with highest churn x complexity risk
   summarize_commits    - commit breakdown by author, day, type
   detect_coupling      - import hubs and circular dependencies
+  find_dead_code       - public functions/classes never called or imported
+  scan_code_smells     - long functions, deep nesting, magic numbers, missing docstrings
+  map_test_coverage    - source files with no corresponding test file
 
 Usage:
   python git_analyst/execution/server.py
@@ -23,6 +26,9 @@ from git_analyst.execution.analyst import (
     find_hotspots,
     summarize_commits,
     detect_coupling,
+    find_dead_code,
+    scan_code_smells,
+    map_test_coverage,
 )
 
 mcp = FastMCP("git-analyst")
@@ -66,6 +72,36 @@ def detect_coupling_tool(repo_path: str, top_n: int = 10) -> str:
     repo_path: absolute path to the repo root.
     """
     return detect_coupling(repo_path, top_n=top_n)
+
+
+@mcp.tool()
+def find_dead_code_tool(repo_path: str) -> str:
+    """
+    Find public functions and classes defined in the repo but never called or imported anywhere.
+    Two-pass AST analysis: collect all definitions, then collect all referenced names.
+    repo_path: absolute path to the repo root.
+    """
+    return find_dead_code(repo_path)
+
+
+@mcp.tool()
+def scan_code_smells_tool(repo_path: str) -> str:
+    """
+    Scan for common code quality issues: functions over 50 lines, nesting depth over 4,
+    missing module docstrings, and magic numbers hardcoded in logic.
+    repo_path: absolute path to the repo root.
+    """
+    return scan_code_smells(repo_path)
+
+
+@mcp.tool()
+def map_test_coverage_tool(repo_path: str) -> str:
+    """
+    File-based test coverage map. No pytest required. Finds every test_*.py file,
+    maps it to its source file by naming convention, and lists untested source files.
+    repo_path: absolute path to the repo root.
+    """
+    return map_test_coverage(repo_path)
 
 
 if __name__ == "__main__":
