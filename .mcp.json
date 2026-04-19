@@ -1,3 +1,9 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "git-analyst": {
+      "command": "python",
+      "args": ["git_analyst/execution/server.py"],
+      "cwd": "c:\\Program Files\\Projects"
+    }
+  }
 }

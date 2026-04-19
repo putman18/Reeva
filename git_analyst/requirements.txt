@@ -1,0 +1,4 @@
+gitpython
+networkx
+radon
+mcp
